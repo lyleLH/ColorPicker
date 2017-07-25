@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dg-Lw-YY2">
-                                <rect key="frame" x="67.5" y="70" width="240" height="128"/>
+                                <rect key="frame" x="67.5" y="20" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="oxN-cF-s1i"/>
@@ -33,7 +33,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="3dg-Lw-YY2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1lx-jc-8dL"/>
-                            <constraint firstItem="3dg-Lw-YY2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="eS0-1w-l1Z"/>
+                            <constraint firstItem="3dg-Lw-YY2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="eS0-1w-l1Z"/>
                         </constraints>
                     </view>
                     <connections>
