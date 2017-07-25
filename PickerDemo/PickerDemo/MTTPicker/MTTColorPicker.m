@@ -23,6 +23,7 @@
 @property (assign,nonatomic) int boxSize;
 @property (strong,nonatomic) ColourUtils *colorUtils;
 
+@property (nonatomic,assign)CGFloat whiteRatio;
 
 @end
 
@@ -114,7 +115,9 @@
 
 - (void)colorChanged
 {
-     [[self delegate] colorChanged:[UIColor colorWithHue:[self percentage] saturation:[self saturation] brightness:[self brightness] alpha:1.0f] from:self];
+    UIColor * color  = [UIColor colorWithHue:[self percentage] saturation:[self saturation] brightness:[self brightness]  alpha:1.0f];
+    
+     [[self delegate] colorChanged:color from:self];
     
 }
 
@@ -128,6 +131,14 @@
     if ([(SSTouchView *)sender tag] == 7) {
         location = [touch locationInView:[self huebkgd]];	// get the touch position
         [self checkHuePosition:location];
+    }else if ([(SSTouchView *)sender tag] == 10){
+         location = [touch locationInView:[self overlay]];
+        
+        
+        self.whiteRatio = location.y/self.overlay.frame.size.height;
+        NSLog(@"%.3f",self.whiteRatio);
+        [[self delegate] colorChanged:[UIColor colorWithWhite:1-self.whiteRatio alpha:1.0] from:self];
+  
     }
 }
 
