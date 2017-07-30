@@ -33,6 +33,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if(self){
+        
         [self setBoxPos:35];	// starting position of the virtual box area for picking a colour
         [self setBoxSize:165];	// the size (width and height) of the virtual box for picking a colour from
         [self setColorUtils:[ColourUtils sharedInstance]];
@@ -40,15 +41,16 @@
         [self setSaturation:1.0];
         [self setPercentage:0.0];
         
-        self.huebkgd = [[SSTouchViewNoTransparent alloc] initWithFrame:frame];
-        self.huebkgd.image = [UIImage imageNamed:@"paletteColor.png"];
+        [self setFrame:frame];
+        self.huebkgd = [[SSTouchViewNoTransparent alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.huebkgd.image = [UIImage imageNamed:@"paletteColor@2x.png"];
         self.huebkgd.userInteractionEnabled = YES;
         self.huebkgd.delegate =self;
-        [self addSubview:self.huebkgd];
         self.huebkgd.tag = 7;
+        [self addSubview:self.huebkgd];
         
-        self.overlay = [[SSTouchView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width *0.50, frame.size.height *0.50)];
-        self.overlay.center = self.center;
+        
+        self.overlay = [[SSTouchView alloc] initWithFrame:CGRectMake(frame.size.width *0.50/2, frame.size.height *0.50/2, frame.size.width *0.50, frame.size.height *0.50)];
         self.overlay.image = [UIImage imageNamed:@"colorPickerOverlay.png"];
         self.overlay.userInteractionEnabled = YES;
         self.overlay.delegate =self;
@@ -96,8 +98,8 @@
     float centerY		= self.huebkgd.bounds.size.height*.5;
     
     // work out the limit to the distance of the picker when moving around the hue bar
-//    float limit			= self.huebkgd.bounds.size.width*.5 - 11;
-    float limit			= self.huebkgd.bounds.size.width*.5 - 35;
+    //    float limit			= self.huebkgd.bounds.size.width*.5 - 11;
+    float limit			= self.huebkgd.bounds.size.width*.5 - self.huebkgd.bounds.size.width *0.50*0.50*0.50;
     
     // update angle
     float angleDeg		= (newPercentage * 360.0f) - 180.0f;
@@ -108,7 +110,7 @@
     float y				= centerY + limit * sinf(angle);
     
     [self.colorSelector setCenter:[[self huebkgd] convertPoint:CGPointMake(x, y) toView:self]];
-//    NSLog(@"移动取色器在圆环上的位置");
+    //    NSLog(@"移动取色器在圆环上的位置");
     // update percentage reference
     [self setPercentage:newPercentage];
 }
@@ -117,7 +119,7 @@
 {
     UIColor * color  = [UIColor colorWithHue:[self percentage] saturation:[self saturation] brightness:[self brightness]  alpha:1.0f];
     
-     [[self delegate] colorChanged:color from:self];
+    [[self delegate] colorChanged:color from:self];
     
 }
 
@@ -132,13 +134,13 @@
         location = [touch locationInView:[self huebkgd]];	// get the touch position
         [self checkHuePosition:location];
     }else if ([(SSTouchView *)sender tag] == 10){
-         location = [touch locationInView:[self overlay]];
+        location = [touch locationInView:[self overlay]];
         
         
         self.whiteRatio = location.y/self.overlay.frame.size.height;
-        NSLog(@"%.3f",self.whiteRatio);
+        //        NSLog(@"%.3f",self.whiteRatio);
         [[self delegate] colorChanged:[UIColor colorWithWhite:1-self.whiteRatio alpha:1.0] from:self];
-  
+        
     }
 }
 
